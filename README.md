@@ -4,7 +4,7 @@ The public website for **HiddenGem Flow**, the all-in-one Chrome extension
 (draggable floating window, daily task websites, userscript manager, and
 official Script Store). Local-first, no signup.
 
-Live extension release: https://github.com/BidyutRoy2/hiddengem-flow
+Live extension release: https://github.com/BidyutRoy2/hiddengem-flow/releases/tag/v3.0.0
 
 ## What is in this repo
 

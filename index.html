@@ -4,8 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <meta name="color-scheme" content="dark light" />
-<link rel="icon" href="data:," />
-<title>HiddenGem Flow — Website UI Design</title>
+<link rel="icon" type="image/png" href="/favicon.png" />
+<link rel="apple-touch-icon" href="/favicon.png" />
+<title>HiddenGem Flow — Official Website</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -222,6 +223,7 @@
 
   /* ---------- Guide ---------- */
   .guide-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+  .guide-grid>*,.hero-inner>*{min-width:0}
   .steps{display:flex;flex-direction:column}
   .step{display:flex;gap:18px;padding:20px 16px;border-radius:12px;border:1px solid transparent;text-align:left;background:none;color:var(--ink);width:100%;align-items:flex-start}
   .step:hover{background:var(--panel)}
@@ -323,6 +325,7 @@
     .log-row .dl{padding:0}
     section.block{padding:64px 0 4px}
     .brand .ver{display:none}
+    .nav-cta .btn-green{display:none}
   }
 </style>
 </head>
@@ -364,6 +367,7 @@
     <a href="#guide">Install Guide</a>
     <a href="#changelog">Changelog</a>
     <a href="#faq">FAQ</a>
+    <a class="js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download>Download</a>
     <a href="https://github.com/BidyutRoy2/hiddengem-flow" target="_blank" rel="noopener">GitHub</a>
   </div>
 </header>
@@ -454,7 +458,7 @@
       <div class="sec-head">
         <p class="kicker">Features</p>
         <h2>Everything a script manager should do — and nothing it shouldn't.</h2>
-        <p>One extension, one dashboard. Scripts run where you allow them, update themselves, and stay out of your way the rest of the time.</p>
+        <p>One extension, one dashboard. Scripts run where you allow them, update only when you allow it, and stay out of your way the rest of the time.</p>
       </div>
       <div class="feat-grid">
         <article class="feat">
@@ -470,7 +474,7 @@
         <article class="feat">
           <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg></span>
           <h3>Built-in script store</h3>
-          <p>Browse the community store from this site or inside the extension. Copy a script's URL, paste it in the dashboard, done — no files to manage.</p>
+          <p>Browse the official script store from this site or inside the extension. Copy a script's URL, paste it in the dashboard, done — no files to manage.</p>
         </article>
         <article class="feat">
           <span class="fic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></span>
@@ -485,7 +489,7 @@
         <article class="feat">
           <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
           <h3>Private by design</h3>
-          <p>No accounts, no analytics, no trackers. Scripts and settings stay in your browser — the only network calls are the ones you trigger: the store index, script URLs, and update checks against GitHub.</p>
+          <p>No accounts, no analytics, no trackers. Scripts and settings stay in your browser — the only calls out are the store index and script URLs you ask for, the automatic update check, and favicon images next to task sites.</p>
         </article>
         <article class="feat">
           <span class="fic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/><path d="M12 7v5l3 2"/></svg></span>
@@ -661,7 +665,7 @@
       <div class="sec-head">
         <p class="kicker">Script Store</p>
         <h2>Browse scripts. Copy the URL. Paste it in Flow.</h2>
-        <p>The store lives on GitHub, so this page reads the same live index the extension uses. Websites can't install scripts directly — the copy-and-paste step is the honest, browser-approved way.</p>
+        <p>The store lives on GitHub. The four scripts below are the official store's current listing — the extension reads the same live index, so a new script or version shows up there first. Websites can't install scripts directly — the copy-and-paste step is the honest, browser-approved way.</p>
       </div>
       <div class="store-shell">
         <div class="store-toolbar">
@@ -855,7 +859,7 @@
         </details>
         <details>
           <summary>Is my data collected anywhere? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
-          <div class="faq-body"><p>No. Flow has no analytics, no accounts and no server of its own. Scripts and settings live in your browser's local storage. The only network calls are the ones you trigger — fetching a script URL, checking the store index, or checking for updates.</p></div>
+          <div class="faq-body"><p>No. Flow has no analytics, no accounts and no server of its own. Scripts and settings live in your browser's local storage. The only network calls are fetching a script URL or the store index when you ask for it, the automatic update check (at most once every 6 hours), and favicon images next to task sites.</p></div>
         </details>
         <details>
           <summary>How do updates work? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
@@ -914,7 +918,7 @@
     </div>
     <div class="foot-bottom">
       <span>© 2026 HiddenGem Flow · MIT License</span>
-      <span>Design preview — links point at the real GitHub project.</span>
+      <span>Links point at the real GitHub project.</span>
     </div>
   </div>
 </footer>
