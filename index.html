@@ -22,7 +22,7 @@
 <meta name="twitter:title" content="HiddenGem Flow — Chrome Extension for Daily Tasks &amp; Userscripts">
 <meta name="twitter:description" content="HiddenGem Flow is a free, local-first Chrome extension: daily task websites, a userscript manager, and the official Script Store. No signup, no server.">
 <meta name="twitter:image" content="https://hiddengemflow.vercel.app/social-preview.png">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"HiddenGem Flow","applicationCategory":"BrowserApplication","operatingSystem":"Chrome, Brave","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Bidyut Roy","url":"https://github.com/BidyutRoy2"},"url":"https://hiddengemflow.vercel.app/","downloadUrl":"https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip","softwareVersion":"3.0.0"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"HiddenGem Flow","applicationCategory":"BrowserApplication","operatingSystem":"Chrome, Brave, Edge","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"author":{"@type":"Person","name":"Bidyut Roy","url":"https://github.com/BidyutRoy2"},"url":"https://hiddengemflow.vercel.app/","downloadUrl":"https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip","softwareVersion":"3.0.0"}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -141,7 +141,7 @@
   .ms-item svg{width:15px;height:15px}
   .ms-item.on{background:var(--green-soft);color:var(--green)}
   .ms-item .tag{margin-left:auto;font-family:var(--font-mono);font-size:9.5px;font-weight:600;background:var(--amber);color:#1A1200;border-radius:5px;padding:1px 5px}
-  .mock-main{padding:18px}
+  .mock-main{padding:20px 22px}
   .mock-main h4{font-family:var(--font-display);margin:0 0 4px;font-size:16px;font-weight:700}
   .mock-main .sub{font-size:12.5px;color:var(--muted);margin:0 0 14px}
   .script-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line-soft);background:var(--bg-2);border-radius:11px;padding:11px 13px;margin-bottom:9px}
@@ -153,7 +153,7 @@
   .toggle{margin-left:auto;width:38px;height:22px;border-radius:99px;background:var(--green);position:relative;flex:none}
   .toggle::after{content:"";position:absolute;top:3px;right:3px;width:16px;height:16px;border-radius:50%;background:#fff}
   .toggle.off{background:var(--line)} .toggle.off::after{right:auto;left:3px;background:var(--muted)}
-  .mock-status{display:flex;gap:8px;align-items:center;margin-top:13px;font-family:var(--font-mono);font-size:11.5px;color:var(--muted)}
+  .mock-status{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:13px;font-family:var(--font-mono);font-size:11.5px;color:var(--muted)}
   .mock-status .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
   @media (prefers-reduced-motion: reduce){.mock-status .pulse{animation:none} html{scroll-behavior:auto}}
@@ -210,6 +210,12 @@
     .perm-note{padding:15px 18px}
     .detail{padding:20px}
   }
+
+  /* ---------- Skip link & focus ---------- */
+  .skip-link{position:absolute;left:16px;top:-60px;z-index:300;background:var(--green);color:#06281C;font-weight:700;padding:10px 16px;border-radius:10px;text-decoration:none;transition:top .15s ease}
+  .skip-link:focus{top:12px}
+  :focus-visible{outline:3px solid var(--green);outline-offset:2px}
+  #main:focus{outline:none}
 
   /* ---------- Store ---------- */
   .store-shell{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
@@ -347,10 +353,12 @@
 </head>
 <body>
 
+<a class="skip-link" href="#main">Skip to content</a>
+
 <header class="nav">
   <div class="nav-inner">
-    <a class="brand" href="#top" aria-label="HiddenGem Flow home">
-      <span class="gem"><svg viewBox="0 0 24 24" fill="none" stroke="#04120B" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8l3-5z"/><path d="M3 8h18M9.5 8L12 21 14.5 8M6 3l3.5 5L12 3l2.5 5L18 3"/></svg></span>
+    <a class="brand" href="#main" aria-label="HiddenGem Flow home">
+      <span class="gem"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#04120B" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8l3-5z"/><path d="M3 8h18M9.5 8L12 21 14.5 8M6 3l3.5 5L12 3l2.5 5L18 3"/></svg></span>
       HiddenGem&nbsp;<em>Flow</em>
       <span class="ver js-version">v3.0.0</span>
     </a>
@@ -364,15 +372,15 @@
     </nav>
     <div class="nav-cta">
       <a class="btn btn-ghost" href="https://github.com/BidyutRoy2/hiddengem-flow" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 1.28 1.06.82.57 1.65.55 3.26 0 .32.22.87.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 1.28 1.06.82.57 1.65.55 3.26 0 .32.22.87.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
         GitHub
       </a>
       <a class="btn btn-green js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
         Download
       </a>
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
     </div>
   </div>
@@ -388,7 +396,7 @@
   </div>
 </header>
 
-<main id="top">
+<main id="main" tabindex="-1">
 
   <!-- ================= HERO ================= -->
   <div class="hero">
@@ -400,15 +408,15 @@
         <p class="lede">HiddenGem Flow keeps your daily websites and your userscripts in one place — a draggable floating window on any site, a full dashboard, and an official script store. No account, no tracking, and nothing runs until you say so.</p>
         <div class="hero-ctas">
           <a class="btn btn-green btn-lg js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
-            Download for Chrome / Brave
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            Download for Chrome, Brave &amp; Edge
           </a>
           <a class="btn btn-ghost btn-lg" href="#store">Browse the script store</a>
         </div>
         <div class="hero-meta">
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Free &amp; open source</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> No account needed</span>
-          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> No tracking</span>
+          <span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Free &amp; open source</span>
+          <span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> No account needed</span>
+          <span><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> No tracking</span>
         </div>
       </div>
 
@@ -419,38 +427,38 @@
           <span class="d" style="background:#FEBC2E"></span>
           <span class="d" style="background:#28C840"></span>
           <span class="mock-url">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
             chrome-extension://…/dashboard
           </span>
         </div>
         <div class="mock-body">
           <aside class="mock-side">
-            <div class="ms-brand"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="#04120B" stroke-width="2.4" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8l3-5z"/><path d="M3 8h18"/></svg></span> Flow</div>
-            <span class="ms-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Daily Tasks</span>
-            <span class="ms-item on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg> Scripts</span>
-            <span class="ms-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Notepad</span>
-            <span class="ms-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg> Store</span>
-            <span class="ms-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings</span>
+            <div class="ms-brand"><span class="g"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#04120B" stroke-width="2.4" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8l3-5z"/><path d="M3 8h18"/></svg></span> Flow</div>
+            <span class="ms-item"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Daily Tasks</span>
+            <span class="ms-item on"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg> Scripts</span>
+            <span class="ms-item"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Notepad</span>
+            <span class="ms-item"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg> Store</span>
+            <span class="ms-item"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings</span>
           </aside>
           <div class="mock-main">
             <h4>My Scripts</h4>
             <p class="sub">3 installed · 2 running on this tab</p>
             <div class="script-row">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
+              <span class="ic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
               <span><b>Titan Exchange Auto Trader Pro</b><small>https://testnet.titanx.cc/trade/*</small></span>
               <span class="toggle"></span>
             </div>
             <div class="script-row">
-              <span class="ic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+              <span class="ic amber"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
               <span><b>9Chain Virtual Node Auto</b><small>Runs on its site</small></span>
               <span class="toggle"></span>
             </div>
             <div class="script-row">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 16l2 2 4-4"/></svg></span>
+              <span class="ic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 16l2 2 4-4"/></svg></span>
               <span><b>Firstprint Daily Streak Auto-Claim</b><small>Runs on its site</small></span>
               <span class="toggle off"></span>
             </div>
-            <div class="mock-status"><span class="pulse"></span> Engine running · last check 09:41 · all scripts up to date</div>
+            <div class="mock-status"><span class="pulse"></span> Engine running · all scripts up to date</div>
           </div>
         </div>
       </div>
@@ -478,47 +486,47 @@
       </div>
       <div class="feat-grid">
         <article class="feat">
-          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+          <span class="fic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
           <h3>Daily Tasks</h3>
           <p>Save the sites you open every day by name and URL, then open one, several, or all of them with Open All. Pin, search, export and import — with honest reporting of exactly what opened.</p>
         </article>
         <article class="feat">
-          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span>
+          <span class="fic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span>
           <h3>Script manager</h3>
           <p>Install, edit, enable or remove userscripts from one dashboard. Every script is scanned before install — you confirm exactly what will run.</p>
         </article>
         <article class="feat">
-          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg></span>
+          <span class="fic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg></span>
           <h3>Built-in script store</h3>
           <p>Browse the official script store from this site or inside the extension. Copy a script's URL, paste it in the dashboard, done — no files to manage.</p>
         </article>
         <article class="feat">
-          <span class="fic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></span>
+          <span class="fic amber"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></span>
           <h3>Floating panel</h3>
           <p>A small on-page panel shows which scripts are active on the current tab, with run status and quick toggles — no need to open the dashboard.</p>
         </article>
         <article class="feat">
-          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg></span>
+          <span class="fic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg></span>
           <h3>Update checker</h3>
           <p>Flow checks GitHub Releases and your installed scripts for newer versions, and shows a banner only when there is actually something to update.</p>
         </article>
         <article class="feat">
-          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <span class="fic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
           <h3>Private by design</h3>
           <p>No accounts, no analytics, no trackers. Scripts and settings stay in your browser — the only calls out are the store index and script URLs you ask for, the automatic update check, and favicon images next to task sites.</p>
         </article>
         <article class="feat">
-          <span class="fic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/><path d="M12 7v5l3 2"/></svg></span>
+          <span class="fic amber"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/><path d="M12 7v5l3 2"/></svg></span>
           <h3>Backup &amp; restore</h3>
           <p>Export all your scripts and settings to a single file, and restore them on a new machine or a fresh browser profile in seconds — no account, no cloud, your file stays yours.</p>
         </article>
         <article class="feat">
-          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
+          <span class="fic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
           <h3>Notepad</h3>
           <p>Quick local notes in the floating window and the Dashboard — the same notes in both. Markdown, checklists, due dates, tags and pins. Notes live in this browser only.</p>
         </article>
         <article class="feat">
-          <span class="fic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <span class="fic amber"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
           <h3>Flows &amp; reminders</h3>
           <p>A Flow runs a whole routine — tasks, scripts and a note — in one click or on a schedule. Task reminders open their sites at the time you set.</p>
         </article>
@@ -537,7 +545,7 @@
       <div class="detail-grid">
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg> The floating window</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg> The floating window</h3>
           <ul>
             <li>Click the toolbar icon on any website and a small window opens. <b>Drag it by the header</b>, minimize it, close it — its position is remembered between visits.</li>
             <li>It lives in a <b>Shadow DOM</b>, so the site's own styles can't break it — and it can't break the site.</li>
@@ -547,7 +555,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Daily Tasks, in detail</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Daily Tasks, in detail</h3>
           <ul>
             <li>Save sites by name + URL. <b>Pin, edit, delete, search</b> — duplicate URLs are rejected.</li>
             <li><b>Open All</b> opens tabs one by one (~350 ms apart, max 50 at a time). Only the first tab opens in the foreground; the result is reported honestly — <i>“Opened 3 tabs.”</i> — never silently dropped.</li>
@@ -558,7 +566,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg> Script Manager, in detail</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg> Script Manager, in detail</h3>
           <ul>
             <li>Every install is <b>scanned first</b> — score 0–100, grade A–F — and needs your explicit <b>Confirm</b>. The scan warns; it never blocks.</li>
             <li><b>Version history</b> keeps the last 10 versions of each script, with a one-click <b>Rollback</b>.</li>
@@ -569,7 +577,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg> Script Store &amp; the bridge</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg> Script Store &amp; the bridge</h3>
           <ul>
             <li>The official store lives in the public <code>hiddengem-flow-store</code> repo, fetched via raw.githubusercontent first, jsDelivr as fallback — and <b>only when you click Load store</b>. Nothing is fetched before that.</li>
             <li>Search, and sort by <b>Recently updated / Latest / Name</b>. Installing always goes through scan + your confirm — nothing installs itself.</li>
@@ -579,7 +587,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Notepad, in detail</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Notepad, in detail</h3>
           <ul>
             <li>The <b>same notes</b> in the floating window and in the Dashboard. Search as you type.</li>
             <li>Notes support <b>Markdown, checklists and due dates</b>. Brand each note (HiddenGem / Personal / Work), add up to <b>10 tags</b>, pin to the top, and copy the note body in one click.</li>
@@ -589,7 +597,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg> Flows, reminders &amp; schedules</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg> Flows, reminders &amp; schedules</h3>
           <ul>
             <li>A <b>Flow</b> runs a routine — tasks + scripts + a note — in one click, or on a schedule.</li>
             <li><b>Task reminders</b> open their sites at the time you set; Open All can also run on a schedule.</li>
@@ -599,7 +607,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg> Runs &amp; logs</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg> Runs &amp; logs</h3>
           <ul>
             <li><b>Multi-tab Logs:</b> every tab the extension opens gets a run entry — Queued → Running → Done — with the scripts that match it.</li>
             <li><b>Stop All</b> closes only the tabs this extension opened — never your other tabs.</li>
@@ -607,7 +615,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01"/></svg> Window modes, menus &amp; shortcuts</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01"/></svg> Window modes, menus &amp; shortcuts</h3>
           <ul>
             <li><b>Three window modes</b> — Floating window, native Side Panel, or a standalone Popup window. Switch from the toolbar icon, <kbd>Alt+Shift+F</kbd>, the Dashboard, or each surface's Switch menu. Default is Floating.</li>
             <li><b>Right-click menu:</b> save a site to Daily Tasks, save a selection as a note, or run a script on the page.</li>
@@ -616,7 +624,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.4 7.2 16.9l.9-5.4L4.2 7.7l5.4-.8L12 2z"/></svg> More tools built in</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.4 7.2 16.9l.9-5.4L4.2 7.7l5.4-.8L12 2z"/></svg> More tools built in</h3>
           <ul>
             <li><b>Sessions</b> — save a set of open tabs and reopen them later.</li>
             <li><b>Userstyles</b> — your own per-site custom CSS.</li>
@@ -625,7 +633,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/><path d="M12 7v5l3 2"/></svg> Backup, sync &amp; updates</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/><path d="M12 7v5l3 2"/></svg> Backup, sync &amp; updates</h3>
           <ul>
             <li><b>Automatic backup</b> keeps the last 3 snapshots. Restore from a snapshot, or export / import a backup file. Backups never contain tokens or API keys.</li>
             <li><b>Optional sync</b> to your own WebDAV / Gist / Drive — <b>off by default</b>; you opt in, and it's your storage, not ours.</li>
@@ -634,7 +642,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1M16 3h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg> What scripts can use — the GM API</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1M16 3h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg> What scripts can use — the GM API</h3>
           <ul>
             <li><b>Six GM functions exist:</b> <code>GM_setValue</code>, <code>GM_getValue</code>, <code>GM_notification</code>, <code>GM_addStyle</code>, <code>GM_xmlhttpRequest</code> (only with <code>@grant GM_xmlhttpRequest</code> and the host in <code>@connect</code>) and <code>GM_setClipboard</code> — plus the <code>GM.*</code> object form.</li>
             <li><code>GM_openInTab</code>, <code>GM_download</code>, <code>unsafeWindow</code> and the rest are <b>not implemented</b> — a script that calls one gets a scanner warning and a runtime error, never a fake.</li>
@@ -645,7 +653,7 @@
         </article>
 
         <article class="detail">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> Privacy, precisely</h3>
+          <h3><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> Privacy, precisely</h3>
           <ul>
             <li>Everything you save — tasks, scripts, positions, logs — stays in <code>chrome.storage.local</code> on your machine. No account, no analytics, no telemetry.</li>
             <li>Only <b>two automatic external requests</b> exist: a favicon image next to each task site (Google's s2 service; a letter tile shows instead if it fails), and the update check asking api.github.com for the latest public release.</li>
@@ -681,12 +689,12 @@
       <div class="sec-head">
         <p class="kicker">Script Store</p>
         <h2>Browse scripts. Copy the URL. Paste it in Flow.</h2>
-        <p>The store lives on GitHub. The four scripts below are the official store's current listing — the extension reads the same live index, so a new script or version shows up there first. Websites can't install scripts directly — the copy-and-paste step is the honest, browser-approved way.</p>
+        <p>The store lives on GitHub. The scripts below are the official store's live listing — this page reads the same live index as the extension, so a new script or version shows up here as soon as it is published. Websites can't install scripts directly — the copy-and-paste step is the honest, browser-approved way.</p>
       </div>
       <div class="store-shell">
         <div class="store-toolbar">
           <label class="search-box">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
             <input type="search" id="storeSearch" placeholder="Search scripts by name, site or keyword…" aria-label="Search scripts">
           </label>
           <span class="store-count" id="storeCount">4 scripts</span>
@@ -694,56 +702,56 @@
         <div class="store-grid" id="storeGrid">
           <article class="store-card" data-search="titan exchange auto trader pro trading testnet titanx faucet hiddengem">
             <div class="top">
-              <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
+              <span class="sic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
               <div><h3>Titan Exchange Auto Trader Pro by HiddenGem</h3><span class="ver">v2.0</span></div>
             </div>
             <p>Automated trading loop with anti-ban evasion, draggable &amp; minimizable UI, auto faucet claim, safety locks.</p>
             <div class="match-line">https://testnet.titanx.cc/trade/*</div>
             <div class="actions">
               <button class="btn btn-green btn-sm copy-btn" data-url="https://raw.githubusercontent.com/BidyutRoy2/hiddengem-flow-store/main/scripts/titan-exchange-auto-trader-pro-by-hiddengem.user.js">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 Copy install URL
               </button>
             </div>
           </article>
           <article class="store-card" data-search="universal dom diagnostic scanner ui rules baseline diff performance console overlay userscript-manager">
             <div class="top">
-              <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6M11 8v6"/></svg></span>
+              <span class="sic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6M11 8v6"/></svg></span>
               <div><h3>Universal DOM Diagnostic v2.0</h3><span class="ver">v2.0.0</span></div>
             </div>
             <p>Read-only UI scanner for websites — 30+ diagnostic rules, score, Baseline Diff, hidden-iframe crawler, performance + console capture, overlay, custom rules. Userscript manager only: no Playwright, no GitHub Actions, no server, no network calls. Baseline and settings stay local.</p>
             <div class="match-line">*://*/*</div>
             <div class="actions">
               <button class="btn btn-green btn-sm copy-btn" data-url="https://raw.githubusercontent.com/BidyutRoy2/hiddengem-flow-store/main/scripts/universal-dom-diagnostic-v2-0-tm-only.user.js">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 Copy install URL
               </button>
             </div>
           </article>
           <article class="store-card" data-search="9chain virtual node auto tap to earn daily gift tier module upgrades cpu ram">
             <div class="top">
-              <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+              <span class="sic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
               <div><h3>9Chain Virtual Node Auto</h3><span class="ver">v2.0.0</span></div>
             </div>
             <p>Auto Tap to Earn + Daily Gift + Node Tier &amp; Module Upgrades (CPU/RAM/Anti-Sybil/Firewall/Peer/Relay/Consensus/Sharding).</p>
             <div class="match-line">Runs on its site</div>
             <div class="actions">
               <button class="btn btn-green btn-sm copy-btn" data-url="https://raw.githubusercontent.com/BidyutRoy2/hiddengem-flow-store/main/scripts/9chain-virtual-node-auto.user.js">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 Copy install URL
               </button>
             </div>
           </article>
           <article class="store-card" data-search="firstprint daily streak auto claim earn reward">
             <div class="top">
-              <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 16l2 2 4-4"/></svg></span>
+              <span class="sic"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 16l2 2 4-4"/></svg></span>
               <div><h3>Firstprint Daily Streak Auto-Claim</h3><span class="ver">v1.0.2</span></div>
             </div>
             <p>Automatically claims the Firstprint daily streak reward when you open the Earn page. One claim per day (UTC). Clicks only the visible Claim button — it never signs wallet transactions for you.</p>
             <div class="match-line">Runs on its site</div>
             <div class="actions">
               <button class="btn btn-green btn-sm copy-btn" data-url="https://raw.githubusercontent.com/BidyutRoy2/hiddengem-flow-store/main/scripts/firstprint-daily-streak-auto-claim.user.js">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                 Copy install URL
               </button>
             </div>
@@ -751,7 +759,7 @@
         </div>
         <div class="store-empty" id="storeEmpty">No scripts match that search. Try “firstprint” or “titan”.</div>
         <div class="store-note">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 11v5"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 11v5"/></svg>
           <span>After copying: open the Flow dashboard → <b>Install from URL</b> → paste → review the scan → Confirm. The extension always shows you the script's code and permissions before anything runs.</span>
         </div>
       </div>
@@ -778,7 +786,7 @@
           </button>
           <button class="step" data-step="2" role="tab" aria-selected="false">
             <span class="num">3</span>
-            <span><h3>Open the extensions page</h3><p>In Chrome or Brave, go to the extensions page and turn on Developer mode (top-right switch).</p></span>
+            <span><h3>Open the extensions page</h3><p>In Chrome, Brave or Edge, go to the extensions page and turn on Developer mode (top-right switch).</p></span>
           </button>
           <button class="step" data-step="3" role="tab" aria-selected="false">
             <span class="num">4</span>
@@ -804,7 +812,7 @@
             <pre id="ccBody"></pre>
           </div>
           <div class="guide-tip">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.7 1 1.5 1 2.5h6c0-1 .2-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.7 1 1.5 1 2.5h6c0-1 .2-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg>
             <span><b>Updating later?</b> Replace the files in the same folder with the new zip's contents, then press <b>Reload</b> on the extensions page. Never press Remove — that deletes your scripts and settings.</span>
           </div>
         </div>
@@ -835,7 +843,7 @@
               <li>The released zip was downloaded back from GitHub and verified byte-for-byte, then live-tested in a real browser — dashboard reports “You are up to date.”</li>
             </ul>
           </div>
-          <a class="dl js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg> .zip</a>
+          <a class="dl js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg> .zip</a>
         </div>
       </div>
 
@@ -847,7 +855,7 @@
         </div>
         <div class="cta-actions">
           <a class="btn btn-green btn-lg js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
             Download <span class="js-version">v3.0.0</span>&nbsp;.zip — direct
           </a>
           <a class="btn btn-ghost btn-lg" href="#guide">Read the 2-minute install guide</a>
@@ -866,27 +874,27 @@
       </div>
       <div class="faq">
         <details>
-          <summary>Why isn't Flow on the Chrome Web Store? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <summary>Why isn't Flow on the Chrome Web Store? <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
           <div class="faq-body"><p>For now, Flow is distributed through GitHub Releases and installed with Load unpacked. That keeps every release open for inspection — the zip you download is exactly the code that runs. A Web Store listing may come later; the install guide above covers the manual route in about two minutes.</p></div>
         </details>
         <details>
-          <summary>Can this website install a script for me? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <summary>Can this website install a script for me? <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
           <div class="faq-body"><p>No — and no website can. Chrome removed website-triggered extension installs in 2018, and web pages can't open extension pages. That's why the store uses Copy install URL: you paste the link into the dashboard, review the scan, and confirm yourself. It's one extra step, and it's the safe one.</p></div>
         </details>
         <details>
-          <summary>Is my data collected anywhere? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <summary>Is my data collected anywhere? <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
           <div class="faq-body"><p>No. Flow has no analytics, no accounts and no server of its own. Scripts and settings live in your browser's local storage. The only network calls are fetching a script URL or the store index when you ask for it, the automatic update check (at most once every 6 hours), and favicon images next to task sites.</p></div>
         </details>
         <details>
-          <summary>How do updates work? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <summary>How do updates work? <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
           <div class="faq-body"><p>Unpacked extensions can't update themselves — Chrome gives them no way to replace their own files. So Flow notices instead: it checks GitHub Releases at most once every 6 hours, and the Dashboard's Overview tab shows a banner with the new version and the manual steps (download, replace the files in the same folder, press Reload on the extensions page). Never press Remove — that deletes your saved tasks and scripts. One honest quirk: a fresh install of a just-uploaded build may briefly report an update pointing at itself; Dismiss hides it until the next build.</p></div>
         </details>
         <details>
-          <summary>Which scripts can Flow run? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <summary>Which scripts can Flow run? <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
           <div class="faq-body"><p>JavaScript userscripts with @match patterns. Six GM functions are supported — GM_setValue, GM_getValue, GM_notification, GM_addStyle, GM_xmlhttpRequest (with @grant and @connect) and GM_setClipboard, plus the GM.* object form. Functions like GM_openInTab, GM_download and unsafeWindow are not implemented: a script that calls one gets a scanner warning and a runtime error, never a fake. The full breakdown is in the Full Details section above.</p></div>
         </details>
         <details>
-          <summary>How do I report a bug or suggest a script? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <summary>How do I report a bug or suggest a script? <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
           <div class="faq-body"><p>Open an issue on GitHub, or follow the HiddenGem channel on Telegram (@hiddengemnews) for release announcements and script drops.</p></div>
         </details>
       </div>
@@ -898,8 +906,8 @@
   <div class="wrap">
     <div class="foot-inner">
       <div class="foot-brand">
-        <a class="brand" href="#top">
-          <span class="gem"><svg viewBox="0 0 24 24" fill="none" stroke="#04120B" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8l3-5z"/><path d="M3 8h18M9.5 8L12 21 14.5 8M6 3l3.5 5L12 3l2.5 5L18 3"/></svg></span>
+        <a class="brand" href="#main">
+          <span class="gem"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#04120B" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8l3-5z"/><path d="M3 8h18M9.5 8L12 21 14.5 8M6 3l3.5 5L12 3l2.5 5L18 3"/></svg></span>
           HiddenGem&nbsp;<em>Flow</em>
         </a>
         <p>A userscript manager for Chromium browsers. Free, open source, private by design.</p>
@@ -940,7 +948,7 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
   <span id="toastText">Copied</span>
 </div>
 
@@ -961,7 +969,18 @@
     fetch('https://api.github.com/repos/BidyutRoy2/hiddengem-flow/releases/latest')
       .then(function(res){ if(!res.ok) throw new Error('release lookup failed'); return res.json(); })
       .then(function(data){
-        var asset = data && data.assets && data.assets[0];
+        var assets = (data && data.assets) || [];
+        var asset = null;
+        var ai;
+        for(ai = 0; ai < assets.length; ai++){
+          if(assets[ai] && assets[ai].name && /^hiddengem-flow-v.*\.zip$/i.test(assets[ai].name)){ asset = assets[ai]; break; }
+        }
+        if(!asset){
+          for(ai = 0; ai < assets.length; ai++){
+            if(assets[ai] && assets[ai].name && /\.zip$/i.test(assets[ai].name)){ asset = assets[ai]; break; }
+          }
+        }
+        if(!asset) asset = assets[0];
         if(asset && asset.browser_download_url){
           setDownloadHref(asset.browser_download_url);
         }
@@ -1005,7 +1024,7 @@
       if(btn){
         var original = btn.innerHTML;
         btn.classList.add('copied');
-        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20 6L9 17l-5-5"/></svg> Copied — paste it in Flow';
+        btn.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20 6L9 17l-5-5"/></svg> Copied — paste it in Flow';
         setTimeout(function(){ btn.classList.remove('copied'); btn.innerHTML = original; }, 2400);
       }
       showToast('Install URL copied — paste it in Dashboard → Install from URL');
@@ -1021,8 +1040,11 @@
       document.body.removeChild(ta); done();
     }
   }
-  document.querySelectorAll('.copy-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){ copyText(btn.getAttribute('data-url'), btn); });
+  var storeGrid = document.getElementById('storeGrid');
+  storeGrid.addEventListener('click', function(e){
+    var btn = e.target && e.target.closest ? e.target.closest('.copy-btn') : null;
+    if(!btn || !storeGrid.contains(btn)) return;
+    copyText(btn.getAttribute('data-url'), btn);
   });
 
   /* Store search */
@@ -1030,7 +1052,7 @@
   var cards = Array.prototype.slice.call(document.querySelectorAll('.store-card'));
   var count = document.getElementById('storeCount');
   var empty = document.getElementById('storeEmpty');
-  search.addEventListener('input', function(){
+  function applyStoreFilter(){
     var q = search.value.trim().toLowerCase();
     var visible = 0;
     cards.forEach(function(card){
@@ -1041,7 +1063,124 @@
     });
     count.textContent = visible + (visible === 1 ? ' script' : ' scripts');
     empty.style.display = visible === 0 ? 'block' : 'none';
-  });
+  }
+  search.addEventListener('input', applyStoreFilter);
+
+  /* Live store index — the cards in the HTML above are the built-in
+     fallback. If the live index (the same one the extension reads) loads,
+     the cards are re-rendered from it; if it fails or is unusable, the
+     fallback cards stay exactly as they are. Index data is only ever
+     written through textContent, never as HTML — the only innerHTML
+     below is the fixed local icon strings. */
+  var STORE_ICONS = [
+    '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>',
+    '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6M11 8v6"/></svg>',
+    '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg>',
+    '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 16l2 2 4-4"/></svg>'
+  ];
+  var STORE_COPY_ICON = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+
+  function scrubStoreName(name){
+    var s = String(name == null ? '' : name);
+    var suffix = ' — TM Only';
+    if(s.slice(-suffix.length) === suffix) s = s.slice(0, s.length - suffix.length);
+    return s;
+  }
+  function scrubStoreDescription(desc){
+    var s = String(desc == null ? '' : desc)
+      .replace(/Tampermonkey only/g, 'Userscript manager only')
+      .replace(/\s+https:\/\/t\.me\/\S+\s*$/, '');
+    if(s && !/[.!?]$/.test(s)) s += '.';
+    return s;
+  }
+  function storeMatchDisplay(matches){
+    if(!matches || !matches.length) return 'Runs on its site';
+    var first = String(matches[0]);
+    if(first === '*://*/*') return first;
+    var host = first;
+    var schemeEnd = host.indexOf('://');
+    if(schemeEnd !== -1) host = host.slice(schemeEnd + 3);
+    var slash = host.indexOf('/');
+    if(slash !== -1) host = host.slice(0, slash);
+    if(host.indexOf('*.') === 0) host = host.slice(2);
+    return host.toLowerCase() === 'testnet.titanx.cc' ? first : 'Runs on its site';
+  }
+  function buildStoreCard(script, index){
+    var name = scrubStoreName(script && script.name);
+    var description = scrubStoreDescription(script && script.description);
+    var author = String((script && script.author) == null ? '' : script.author);
+    var version = String((script && script.version) == null ? '' : script.version);
+    var matches = (script && Array.isArray(script.matches)) ? script.matches : [];
+    var matchDisplay = storeMatchDisplay(matches);
+    var searchText = (name + ' ' + description + ' ' + author + ' ' + matches.join(' ') + ' ' + matchDisplay).toLowerCase();
+    if(description.toLowerCase().indexOf('userscript manager') !== -1) searchText += ' userscript-manager';
+
+    var card = document.createElement('article');
+    card.className = 'store-card';
+    card.setAttribute('data-search', searchText);
+
+    var top = document.createElement('div');
+    top.className = 'top';
+    var sic = document.createElement('span');
+    sic.className = 'sic';
+    sic.innerHTML = STORE_ICONS[index % STORE_ICONS.length];
+    var titleWrap = document.createElement('div');
+    var h3 = document.createElement('h3');
+    h3.textContent = name;
+    var ver = document.createElement('span');
+    ver.className = 'ver';
+    ver.textContent = 'v' + version;
+    titleWrap.appendChild(h3);
+    titleWrap.appendChild(ver);
+    top.appendChild(sic);
+    top.appendChild(titleWrap);
+    card.appendChild(top);
+
+    var p = document.createElement('p');
+    p.textContent = description;
+    card.appendChild(p);
+
+    var matchLine = document.createElement('div');
+    matchLine.className = 'match-line';
+    matchLine.textContent = matchDisplay;
+    card.appendChild(matchLine);
+
+    var actions = document.createElement('div');
+    actions.className = 'actions';
+    var btn = document.createElement('button');
+    btn.className = 'btn btn-green btn-sm copy-btn';
+    btn.setAttribute('data-url', String((script && script.codeUrl) == null ? '' : script.codeUrl));
+    btn.innerHTML = STORE_COPY_ICON;
+    btn.appendChild(document.createTextNode(' Copy install URL'));
+    actions.appendChild(btn);
+    card.appendChild(actions);
+    return card;
+  }
+  function renderStoreCards(scripts){
+    var frag = document.createDocumentFragment();
+    scripts.forEach(function(script, i){ frag.appendChild(buildStoreCard(script, i)); });
+    while(storeGrid.firstChild) storeGrid.removeChild(storeGrid.firstChild);
+    storeGrid.appendChild(frag);
+    cards = Array.prototype.slice.call(storeGrid.querySelectorAll('.store-card'));
+    applyStoreFilter();
+  }
+  function fetchStoreIndex(url){
+    return fetch(url).then(function(res){
+      if(!res.ok) throw new Error('store index lookup failed');
+      return res.json();
+    });
+  }
+  if(window.fetch){
+    fetchStoreIndex('https://raw.githubusercontent.com/BidyutRoy2/hiddengem-flow-store/main/index.json')
+      .catch(function(){
+        return fetchStoreIndex('https://cdn.jsdelivr.net/gh/BidyutRoy2/hiddengem-flow-store@main/index.json');
+      })
+      .then(function(data){
+        if(!data || !Array.isArray(data.scripts) || data.scripts.length === 0) return;
+        renderStoreCards(data.scripts);
+      })
+      .catch(function(){ /* fallback cards stay in place */ });
+  }
 
   /* Install guide stepper */
   var stepData = [
@@ -1070,7 +1209,7 @@
     {
       title: 'step-3-extensions-page.txt',
       body:
-'<span class="cm"># in Chrome or Brave, open:</span>\n' +
+'<span class="cm"># in Chrome, Brave or Edge, open:</span>\n' +
 '<span class="st">chrome://extensions</span>\n\n' +
 '<span class="cm"># then, top-right corner:</span>\n' +
 '<span class="kw">Developer mode</span>  →  <span class="st">[ ON ]</span>\n\n' +
