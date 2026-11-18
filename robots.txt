@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hiddengemflow.vercel.app/sitemap.xml

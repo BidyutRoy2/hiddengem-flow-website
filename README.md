@@ -1,5 +1,7 @@
 # HiddenGem Flow — Website
 
+Live site: https://hiddengemflow.vercel.app/
+
 The public website for **HiddenGem Flow**, the all-in-one Chrome extension
 (draggable floating window, daily task websites, userscript manager, and
 official Script Store). Local-first, no signup.
