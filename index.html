@@ -1,0 +1,1120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark light" />
+<link rel="icon" href="data:," />
+<title>HiddenGem Flow — Website UI Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0F0D;
+    --bg-2:#0D1512;
+    --panel:#101A16;
+    --panel-2:#13211B;
+    --line:#1E2E27;
+    --line-soft:#182620;
+    --ink:#EAF4EF;
+    --ink-2:#B9CFC4;
+    --muted:#7E968A;
+    --green:#00D084;
+    --green-dim:#00B874;
+    --green-soft:rgba(0,208,132,.12);
+    --amber:#FFC24B;
+    --amber-soft:rgba(255,194,75,.12);
+    --radius:14px;
+    --font-display:"Outfit",system-ui,sans-serif;
+    --font-body:"Inter",system-ui,sans-serif;
+    --font-mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#F2F6F3;
+      --bg-2:#EAF1EC;
+      --panel:#FFFFFF;
+      --panel-2:#F4F8F5;
+      --line:#D8E4DC;
+      --line-soft:#E2EBE4;
+      --ink:#0C1712;
+      --ink-2:#33463C;
+      --muted:#5F7569;
+      --green:#009E66;
+      --green-dim:#008A58;
+      --green-soft:rgba(0,158,102,.10);
+      --amber:#B97E0B;
+      --amber-soft:rgba(185,126,11,.10);
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  button{font-family:inherit;cursor:pointer;min-height:44px}
+  ::selection{background:var(--green);color:#04120B}
+
+  /* ---------- Design preview bar ---------- */
+  .preview-bar{
+    background:var(--amber);color:#1A1200;
+    font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.04em;
+    text-align:center;padding:8px 16px;
+  }
+  .preview-bar span{opacity:.75;font-weight:400}
+
+  /* ---------- Nav ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .nav-inner{max-width:1180px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:28px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-display);font-weight:700;font-size:18px;letter-spacing:-.01em;white-space:nowrap}
+  .brand .gem{width:32px;height:32px;border-radius:9px;background:var(--green);display:grid;place-items:center;flex:none}
+  .brand .gem svg{width:19px;height:19px}
+  .brand em{font-style:normal;color:var(--green)}
+  .brand .ver{font-family:var(--font-mono);font-size:11px;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:2px 8px;margin-left:2px}
+  nav.links{display:flex;gap:4px;margin-left:auto}
+  nav.links a{text-decoration:none;font-size:14px;font-weight:500;color:var(--ink-2);padding:10px 12px;border-radius:8px;min-height:44px;display:inline-flex;align-items:center}
+  nav.links a:hover{color:var(--ink);background:var(--panel)}
+  .nav-cta{display:flex;gap:10px;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:14px;border-radius:10px;padding:0 18px;min-height:44px;border:1px solid transparent;transition:transform .15s ease, background .15s ease}
+  .btn:active{transform:scale(.98)}
+  .btn-green{background:var(--green);color:#04120B}
+  .btn-green:hover{background:var(--green-dim)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{background:var(--panel)}
+  .btn svg{width:16px;height:16px;flex:none}
+  .menu-btn{display:none;background:var(--panel);border:1px solid var(--line);border-radius:10px;width:44px;height:44px;place-items:center;color:var(--ink)}
+  .menu-btn svg{width:20px;height:20px}
+  .mobile-menu{display:none;border-top:1px solid var(--line-soft);padding:10px 24px 16px;background:var(--bg)}
+  .mobile-menu.open{display:block}
+  .mobile-menu a{display:flex;align-items:center;min-height:44px;text-decoration:none;font-weight:500;color:var(--ink-2);border-bottom:1px solid var(--line-soft)}
+  .mobile-menu a:last-child{border-bottom:none}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:72px 0 40px;position:relative;overflow:hidden}
+  .hero-grid-bg{
+    position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background-image:linear-gradient(var(--line-soft) 1px,transparent 1px),linear-gradient(90deg,var(--line-soft) 1px,transparent 1px);
+    background-size:56px 56px;
+    mask-image:radial-gradient(ellipse 70% 55% at 50% 0%,#000 30%,transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 0%,#000 30%,transparent 75%);
+  }
+  .hero-inner{position:relative;display:grid;grid-template-columns:1.02fr .98fr;gap:56px;align-items:center}
+  .hero-badge{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:12px;font-weight:500;color:var(--green);background:var(--green-soft);border:1px solid color-mix(in srgb,var(--green) 35%,transparent);border-radius:99px;padding:6px 12px;margin-bottom:22px}
+  .hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green)}
+  h1{font-family:var(--font-display);font-size:clamp(38px,5.2vw,58px);line-height:1.06;font-weight:800;letter-spacing:-.025em;margin:0 0 20px}
+  h1 .hl{color:var(--green)}
+  .hero p.lede{font-size:18px;color:var(--ink-2);margin:0 0 30px;max-width:52ch}
+  .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:26px}
+  .btn-lg{min-height:52px;padding:0 24px;font-size:15px;border-radius:12px}
+  .hero-meta{display:flex;gap:20px;flex-wrap:wrap;font-family:var(--font-mono);font-size:12.5px;color:var(--muted)}
+  .hero-meta span{display:inline-flex;align-items:center;gap:7px}
+  .hero-meta svg{width:14px;height:14px;color:var(--green)}
+
+  /* Browser / extension mock */
+  .mock-shell{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
+  .mock-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line-soft);background:var(--panel-2)}
+  .mock-bar .d{width:11px;height:11px;border-radius:50%}
+  .mock-url{flex:1;margin-left:8px;background:var(--bg);border:1px solid var(--line-soft);border-radius:8px;font-family:var(--font-mono);font-size:12px;color:var(--muted);padding:6px 12px;display:flex;align-items:center;gap:8px;overflow:hidden;white-space:nowrap}
+  .mock-url svg{width:12px;height:12px;flex:none;color:var(--green)}
+  .mock-body{display:grid;grid-template-columns:172px 1fr;min-height:308px}
+  .mock-side{border-right:1px solid var(--line-soft);padding:14px 10px;display:flex;flex-direction:column;gap:2px;background:var(--bg-2)}
+  .mock-side .ms-brand{display:flex;align-items:center;gap:8px;padding:4px 8px 12px;font-family:var(--font-display);font-weight:700;font-size:13px}
+  .mock-side .ms-brand .g{width:22px;height:22px;border-radius:6px;background:var(--green);display:grid;place-items:center}
+  .mock-side .ms-brand .g svg{width:13px;height:13px}
+  .ms-item{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:500;color:var(--muted);padding:8px;border-radius:8px}
+  .ms-item svg{width:15px;height:15px}
+  .ms-item.on{background:var(--green-soft);color:var(--green)}
+  .ms-item .tag{margin-left:auto;font-family:var(--font-mono);font-size:9.5px;font-weight:600;background:var(--amber);color:#1A1200;border-radius:5px;padding:1px 5px}
+  .mock-main{padding:18px}
+  .mock-main h4{font-family:var(--font-display);margin:0 0 4px;font-size:16px;font-weight:700}
+  .mock-main .sub{font-size:12.5px;color:var(--muted);margin:0 0 14px}
+  .script-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line-soft);background:var(--bg-2);border-radius:11px;padding:11px 13px;margin-bottom:9px}
+  .script-row .ic{width:34px;height:34px;border-radius:9px;background:var(--green-soft);display:grid;place-items:center;flex:none}
+  .script-row .ic svg{width:17px;height:17px;color:var(--green)}
+  .script-row .ic.amber{background:var(--amber-soft)} .script-row .ic.amber svg{color:var(--amber)}
+  .script-row b{font-size:13.5px;display:block;line-height:1.3}
+  .script-row small{font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+  .toggle{margin-left:auto;width:38px;height:22px;border-radius:99px;background:var(--green);position:relative;flex:none}
+  .toggle::after{content:"";position:absolute;top:3px;right:3px;width:16px;height:16px;border-radius:50%;background:#fff}
+  .toggle.off{background:var(--line)} .toggle.off::after{right:auto;left:3px;background:var(--muted)}
+  .mock-status{display:flex;gap:8px;align-items:center;margin-top:13px;font-family:var(--font-mono);font-size:11.5px;color:var(--muted)}
+  .mock-status .pulse{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+  @media (prefers-reduced-motion: reduce){.mock-status .pulse{animation:none} html{scroll-behavior:auto}}
+
+  /* ---------- Stats strip ---------- */
+  .stats{border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft);margin-top:64px}
+  .stats-inner{display:grid;grid-template-columns:repeat(4,1fr);}
+  .stat{padding:26px 24px;border-left:1px solid var(--line-soft)}
+  .stat:first-child{border-left:none}
+  .stat b{font-family:var(--font-display);font-size:26px;font-weight:800;letter-spacing:-.02em;display:block;line-height:1.1}
+  .stat b em{font-style:normal;color:var(--green)}
+  .stat span{font-size:13px;color:var(--muted)}
+
+  /* ---------- Sections ---------- */
+  section.block{padding:88px 0 8px}
+  .sec-head{max-width:640px;margin-bottom:44px}
+  .sec-head .kicker{font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin:0 0 12px}
+  .sec-head h2{font-family:var(--font-display);font-size:clamp(28px,3.6vw,40px);font-weight:800;letter-spacing:-.02em;line-height:1.12;margin:0 0 12px}
+  .sec-head p{color:var(--ink-2);margin:0;font-size:16.5px}
+
+  .feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .feat{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:26px}
+  .feat .fic{width:44px;height:44px;border-radius:11px;background:var(--green-soft);display:grid;place-items:center;margin-bottom:16px}
+  .feat .fic svg{width:21px;height:21px;color:var(--green)}
+  .feat .fic.amber{background:var(--amber-soft)} .feat .fic.amber svg{color:var(--amber)}
+  .feat h3{font-family:var(--font-display);font-size:17.5px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+  .feat p{font-size:14.5px;color:var(--ink-2);margin:0}
+  .feat .chip{display:inline-block;margin-top:14px;font-family:var(--font-mono);font-size:11px;font-weight:600;color:var(--amber);background:var(--amber-soft);border-radius:6px;padding:3px 8px}
+
+  /* ---------- Full details ---------- */
+  section.block{scroll-margin-top:80px}
+  .detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .detail{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:24px 26px}
+  .detail h3{font-family:var(--font-display);font-size:16.5px;font-weight:700;margin:0 0 12px;display:flex;align-items:center;gap:10px;letter-spacing:-.01em}
+  .detail h3 svg{width:18px;height:18px;color:var(--green);flex:none}
+  .detail ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:14.5px}
+  .detail ul li{margin-bottom:7px}
+  .detail ul li:last-child{margin-bottom:0}
+  .detail code,.perm-wrap code,.log-row code{font-family:var(--font-mono);font-size:.85em;background:var(--bg);border:1px solid var(--line-soft);border-radius:6px;padding:1px 6px;color:var(--ink);white-space:nowrap}
+  .detail b{color:var(--ink);font-weight:600}
+  kbd{font-family:var(--font-mono);font-size:.82em;font-weight:600;background:var(--bg);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:1px 6px;color:var(--ink);white-space:nowrap}
+  .perm-wrap{margin-top:36px}
+  .perm-wrap > h3{font-family:var(--font-display);font-size:21px;font-weight:800;letter-spacing:-.015em;margin:0 0 8px}
+  .perm-wrap > p{color:var(--ink-2);margin:0 0 18px;font-size:15px;max-width:68ch}
+  .perm-table{border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;background:var(--panel)}
+  .perm-row{display:grid;grid-template-columns:190px 1fr;gap:18px;padding:13px 24px;border-bottom:1px solid var(--line-soft);align-items:baseline}
+  .perm-row:last-child{border-bottom:none}
+  .perm-row .pn{font-family:var(--font-mono);font-size:13.5px;font-weight:600;color:var(--green)}
+  .perm-row p{margin:0;font-size:14.5px;color:var(--ink-2)}
+  .perm-note{padding:15px 24px;font-size:13.5px;color:var(--muted);background:var(--panel-2);border-top:1px solid var(--line-soft)}
+  @media (max-width:640px){
+    .detail-grid{grid-template-columns:1fr}
+    .perm-row{grid-template-columns:1fr;gap:3px;padding:13px 18px}
+    .perm-note{padding:15px 18px}
+    .detail{padding:20px}
+  }
+
+  /* ---------- Store ---------- */
+  .store-shell{background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+  .store-toolbar{display:flex;gap:12px;align-items:center;padding:16px 18px;border-bottom:1px solid var(--line-soft);flex-wrap:wrap;background:var(--panel-2)}
+  .search-box{flex:1;min-width:200px;display:flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:0 13px;min-height:44px}
+  .search-box svg{width:16px;height:16px;color:var(--muted);flex:none}
+  .search-box input{flex:1;background:none;border:none;outline:none;color:var(--ink);font:inherit;font-size:14px;min-width:0}
+  .search-box input::placeholder{color:var(--muted)}
+  .store-count{font-family:var(--font-mono);font-size:12px;color:var(--muted);white-space:nowrap}
+  .store-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+  .store-card{padding:22px;border-bottom:1px solid var(--line-soft)}
+  .store-card:nth-child(odd){border-right:1px solid var(--line-soft)}
+  .store-card:nth-last-child(-n+2){border-bottom:none}
+  .store-card .top{display:flex;align-items:flex-start;gap:12px;margin-bottom:8px}
+  .store-card .sic{width:38px;height:38px;border-radius:10px;background:var(--green-soft);display:grid;place-items:center;flex:none}
+  .store-card .sic svg{width:19px;height:19px;color:var(--green)}
+  .store-card h3{font-family:var(--font-display);font-size:16px;font-weight:700;margin:0;line-height:1.3}
+  .store-card .ver{font-family:var(--font-mono);font-size:11px;color:var(--green);font-weight:600}
+  .store-card p{font-size:14px;color:var(--ink-2);margin:0 0 12px}
+  .match-line{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);background:var(--bg);border:1px solid var(--line-soft);border-radius:8px;padding:7px 10px;margin-bottom:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .store-card .actions{display:flex;gap:9px}
+  .btn-sm{min-height:40px;padding:0 14px;font-size:13px;border-radius:9px}
+  .copy-btn.copied{background:var(--green);color:#04120B;border-color:var(--green)}
+  .store-empty{padding:44px 22px;text-align:center;color:var(--muted);font-size:14.5px;display:none}
+  .store-note{padding:14px 18px;border-top:1px solid var(--line-soft);font-size:13px;color:var(--muted);display:flex;gap:9px;align-items:flex-start;background:var(--panel-2)}
+  .store-note svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--amber)}
+
+  /* ---------- Guide ---------- */
+  .guide-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px;align-items:start}
+  .steps{display:flex;flex-direction:column}
+  .step{display:flex;gap:18px;padding:20px 16px;border-radius:12px;border:1px solid transparent;text-align:left;background:none;color:var(--ink);width:100%;align-items:flex-start}
+  .step:hover{background:var(--panel)}
+  .step.active{background:var(--panel);border-color:var(--line)}
+  .step .num{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-family:var(--font-mono);font-size:14px;font-weight:600;flex:none;color:var(--muted)}
+  .step.active .num{background:var(--green);border-color:var(--green);color:#04120B}
+  .step h3{font-family:var(--font-display);font-size:16.5px;font-weight:700;margin:2px 0 4px}
+  .step p{font-size:14px;color:var(--ink-2);margin:0}
+  .guide-visual{position:sticky;top:96px}
+  .code-card{background:#0B120E;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  @media (prefers-color-scheme: light){.code-card{background:#0D1512}}
+  .code-card .cc-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid #1E2E27}
+  .code-card .cc-bar .d{width:11px;height:11px;border-radius:50%}
+  .code-card .cc-title{font-family:var(--font-mono);font-size:12px;color:#7E968A;margin-left:6px}
+  .code-card pre{margin:0;padding:20px;font-family:var(--font-mono);font-size:13px;line-height:1.75;color:#C9DED2;overflow-x:auto}
+  .code-card .cm{color:#5F7A6A}.code-card .kw{color:#00D084}.code-card .st{color:#FFC24B}.code-card .fn{color:#8FD8FF}
+  .guide-tip{margin-top:14px;display:flex;gap:10px;background:var(--amber-soft);border:1px solid color-mix(in srgb,var(--amber) 30%,transparent);border-radius:12px;padding:14px 16px;font-size:14px;color:var(--ink-2)}
+  .guide-tip svg{width:17px;height:17px;flex:none;color:var(--amber);margin-top:2px}
+  .guide-tip b{color:var(--ink)}
+
+  /* ---------- Changelog ---------- */
+  .log-list{border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;background:var(--panel)}
+  .log-row{display:grid;grid-template-columns:170px 1fr auto;gap:20px;padding:22px 24px;border-bottom:1px solid var(--line-soft);align-items:start}
+  .log-row:last-child{border-bottom:none}
+  .log-row .lv{font-family:var(--font-mono);font-size:14px;font-weight:600}
+  .log-row .lv .badge{display:inline-block;margin-top:6px;font-size:10.5px;font-weight:600;letter-spacing:.05em;border-radius:5px;padding:2px 7px}
+  .badge-pre{background:var(--amber-soft);color:var(--amber)}
+  .badge-stable{background:var(--green-soft);color:var(--green)}
+  .log-row .ld{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);margin-top:4px}
+  .log-row h3{font-family:var(--font-display);font-size:16px;margin:0 0 6px;font-weight:700}
+  .log-row ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:14px}
+  .log-row ul li{margin-bottom:3px}
+  .log-row .dl{font-family:var(--font-mono);font-size:12px;color:var(--green);text-decoration:none;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 6px}
+  .log-row .dl svg{width:14px;height:14px}
+
+  /* ---------- Download CTA ---------- */
+  .cta-band{margin-top:88px;background:var(--panel-2);border:1px solid var(--line);border-radius:22px;padding:52px 48px;display:grid;grid-template-columns:1.2fr .8fr;gap:40px;align-items:center;position:relative;overflow:hidden}
+  .cta-band::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,var(--green-soft),transparent 65%);top:-200px;right:-100px;pointer-events:none}
+  .cta-band h2{font-family:var(--font-display);font-size:clamp(26px,3.4vw,36px);font-weight:800;letter-spacing:-.02em;margin:0 0 12px;line-height:1.15}
+  .cta-band p{color:var(--ink-2);margin:0;max-width:46ch}
+  .cta-actions{display:flex;flex-direction:column;gap:12px;position:relative}
+  .cta-actions .btn{justify-content:center}
+  .cta-note{font-family:var(--font-mono);font-size:11.5px;color:var(--muted);text-align:center}
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:760px}
+  details{border:1px solid var(--line-soft);border-radius:12px;background:var(--panel);margin-bottom:10px;overflow:hidden}
+  summary{padding:18px 20px;font-family:var(--font-display);font-weight:600;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:44px}
+  summary::-webkit-details-marker{display:none}
+  summary svg{width:17px;height:17px;flex:none;color:var(--green);transition:transform .2s}
+  details[open ] summary svg{transform:rotate(45deg)}
+  details .faq-body{padding:0 20px 18px;color:var(--ink-2);font-size:14.5px}
+  details .faq-body p{margin:0}
+
+  /* ---------- Footer ---------- */
+  footer{margin-top:96px;border-top:1px solid var(--line-soft);background:var(--bg-2)}
+  .foot-inner{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;padding:52px 0 40px}
+  .foot-inner h4{font-family:var(--font-mono);font-size:11.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .foot-inner ul{list-style:none;margin:0;padding:0}
+  .foot-inner ul li a{text-decoration:none;color:var(--ink-2);font-size:14px;display:inline-flex;align-items:center;min-height:36px}
+  .foot-inner ul li a:hover{color:var(--green)}
+  .foot-brand p{font-size:14px;color:var(--muted);margin:12px 0 0;max-width:34ch}
+  .foot-bottom{border-top:1px solid var(--line-soft);padding:20px 0 28px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+  .foot-bottom a{color:var(--ink-2);text-decoration:none}
+  .foot-bottom a:hover{color:var(--green)}
+
+  /* ---------- Toast ---------- */
+  .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,80px);background:var(--ink);color:var(--bg);font-size:14px;font-weight:600;padding:13px 20px;border-radius:12px;display:flex;align-items:center;gap:9px;opacity:0;transition:all .3s ease;z-index:100;box-shadow:0 16px 40px rgba(0,0,0,.35);pointer-events:none;max-width:calc(100vw - 32px)}
+  .toast.show{transform:translate(-50%,0);opacity:1}
+  .toast svg{width:16px;height:16px;color:var(--green-dim);flex:none}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:960px){
+    .hero-inner{grid-template-columns:1fr;gap:40px}
+    .feat-grid{grid-template-columns:repeat(2,1fr)}
+    .guide-grid{grid-template-columns:1fr;gap:28px}
+    .guide-visual{position:static}
+    .cta-band{grid-template-columns:1fr;padding:38px 28px}
+    .foot-inner{grid-template-columns:1fr 1fr}
+    nav.links{display:none}
+    .menu-btn{display:grid}
+    .nav-cta .btn-ghost{display:none}
+  }
+  @media (max-width:640px){
+    .hero{padding:48px 0 24px}
+    .stats-inner{grid-template-columns:repeat(2,1fr)}
+    .stat{border-left:none;border-top:1px solid var(--line-soft)}
+    .stat:nth-child(-n+2){border-top:none}
+    .stat:nth-child(even){border-left:1px solid var(--line-soft)}
+    .feat-grid{grid-template-columns:1fr}
+    .store-grid{grid-template-columns:1fr}
+    .store-card{border-right:none !important;border-bottom:1px solid var(--line-soft) !important}
+    .store-card:last-child{border-bottom:none !important}
+    .mock-body{grid-template-columns:1fr}
+    .mock-side{flex-direction:row;flex-wrap:wrap;border-right:none;border-bottom:1px solid var(--line-soft);padding:10px}
+    .mock-side .ms-brand{width:100%;padding-bottom:6px}
+    .ms-item{padding:7px 9px}
+    .log-row{grid-template-columns:1fr;gap:8px}
+    .log-row .dl{padding:0}
+    section.block{padding:64px 0 4px}
+    .brand .ver{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-bar">UI DESIGN PREVIEW — HiddenGem Flow official website <span>· design mockup, not yet deployed</span></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top" aria-label="HiddenGem Flow home">
+      <span class="gem"><svg viewBox="0 0 24 24" fill="none" stroke="#04120B" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8l3-5z"/><path d="M3 8h18M9.5 8L12 21 14.5 8M6 3l3.5 5L12 3l2.5 5L18 3"/></svg></span>
+      HiddenGem&nbsp;<em>Flow</em>
+      <span class="ver js-version">v3.0.0</span>
+    </a>
+    <nav class="links" aria-label="Main">
+      <a href="#features">Features</a>
+      <a href="#details">Full Details</a>
+      <a href="#store">Script Store</a>
+      <a href="#guide">Install Guide</a>
+      <a href="#changelog">Changelog</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost" href="https://github.com/BidyutRoy2/hiddengem-flow" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 1.28 1.06.82.57 1.65.55 3.26 0 .32.22.87.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></svg>
+        GitHub
+      </a>
+      <a class="btn btn-green js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        Download
+      </a>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features">Features</a>
+    <a href="#details">Full Details</a>
+    <a href="#store">Script Store</a>
+    <a href="#guide">Install Guide</a>
+    <a href="#changelog">Changelog</a>
+    <a href="#faq">FAQ</a>
+    <a href="https://github.com/BidyutRoy2/hiddengem-flow" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <div class="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="wrap hero-inner">
+      <div>
+        <span class="hero-badge"><span class="dot"></span> <span class="js-version">v3.0.0</span>&nbsp;is out — the first stable release</span>
+        <h1>Your browser,<br>running <span class="hl">your scripts.</span></h1>
+        <p class="lede">HiddenGem Flow keeps your daily websites and your userscripts in one place — a draggable floating window on any site, a full dashboard, and an official script store. No account, no tracking, and nothing runs until you say so.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-green btn-lg js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            Download for Chrome / Brave
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#store">Browse the script store</a>
+        </div>
+        <div class="hero-meta">
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Free &amp; open source</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> No account needed</span>
+          <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> No tracking</span>
+        </div>
+      </div>
+
+      <!-- Extension dashboard mock -->
+      <div class="mock-shell" aria-label="Preview of the HiddenGem Flow dashboard">
+        <div class="mock-bar">
+          <span class="d" style="background:#FF5F57"></span>
+          <span class="d" style="background:#FEBC2E"></span>
+          <span class="d" style="background:#28C840"></span>
+          <span class="mock-url">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            chrome-extension://…/dashboard
+          </span>
+        </div>
+        <div class="mock-body">
+          <aside class="mock-side">
+            <div class="ms-brand"><span class="g"><svg viewBox="0 0 24 24" fill="none" stroke="#04120B" stroke-width="2.4" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8l3-5z"/><path d="M3 8h18"/></svg></span> Flow</div>
+            <span class="ms-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Daily Tasks</span>
+            <span class="ms-item on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg> Scripts</span>
+            <span class="ms-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Notepad</span>
+            <span class="ms-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg> Store</span>
+            <span class="ms-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings</span>
+          </aside>
+          <div class="mock-main">
+            <h4>My Scripts</h4>
+            <p class="sub">3 installed · 2 running on this tab</p>
+            <div class="script-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
+              <span><b>Titan Exchange Auto Trader Pro</b><small>https://testnet.titanx.cc/trade/*</small></span>
+              <span class="toggle"></span>
+            </div>
+            <div class="script-row">
+              <span class="ic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+              <span><b>9Chain Virtual Node Auto</b><small>Runs on its site</small></span>
+              <span class="toggle"></span>
+            </div>
+            <div class="script-row">
+              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 16l2 2 4-4"/></svg></span>
+              <span><b>Firstprint Daily Streak Auto-Claim</b><small>Runs on its site</small></span>
+              <span class="toggle off"></span>
+            </div>
+            <div class="mock-status"><span class="pulse"></span> Engine running · last check 09:41 · all scripts up to date</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="stats">
+        <div class="stats-inner">
+          <div class="stat"><b>v<em>3.0.0</em></b><span>Latest stable release</span></div>
+          <div class="stat"><b>100<em>%</em></b><span>Free, forever</span></div>
+          <div class="stat"><b><em>0</em></b><span>Trackers or ads</span></div>
+          <div class="stat"><b>MIT</b><span>Open-source license</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FEATURES ================= -->
+  <section class="block" id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Features</p>
+        <h2>Everything a script manager should do — and nothing it shouldn't.</h2>
+        <p>One extension, one dashboard. Scripts run where you allow them, update themselves, and stay out of your way the rest of the time.</p>
+      </div>
+      <div class="feat-grid">
+        <article class="feat">
+          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
+          <h3>Daily Tasks</h3>
+          <p>Save the sites you open every day by name and URL, then open one, several, or all of them with Open All. Pin, search, export and import — with honest reporting of exactly what opened.</p>
+        </article>
+        <article class="feat">
+          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg></span>
+          <h3>Script manager</h3>
+          <p>Install, edit, enable or remove userscripts from one dashboard. Every script is scanned before install — you confirm exactly what will run.</p>
+        </article>
+        <article class="feat">
+          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg></span>
+          <h3>Built-in script store</h3>
+          <p>Browse the community store from this site or inside the extension. Copy a script's URL, paste it in the dashboard, done — no files to manage.</p>
+        </article>
+        <article class="feat">
+          <span class="fic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></span>
+          <h3>Floating panel</h3>
+          <p>A small on-page panel shows which scripts are active on the current tab, with run status and quick toggles — no need to open the dashboard.</p>
+        </article>
+        <article class="feat">
+          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg></span>
+          <h3>Update checker</h3>
+          <p>Flow checks GitHub Releases and your installed scripts for newer versions, and shows a banner only when there is actually something to update.</p>
+        </article>
+        <article class="feat">
+          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></span>
+          <h3>Private by design</h3>
+          <p>No accounts, no analytics, no trackers. Scripts and settings stay in your browser — the only network calls are the ones you trigger: the store index, script URLs, and update checks against GitHub.</p>
+        </article>
+        <article class="feat">
+          <span class="fic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/><path d="M12 7v5l3 2"/></svg></span>
+          <h3>Backup &amp; restore</h3>
+          <p>Export all your scripts and settings to a single file, and restore them on a new machine or a fresh browser profile in seconds — no account, no cloud, your file stays yours.</p>
+        </article>
+        <article class="feat">
+          <span class="fic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
+          <h3>Notepad</h3>
+          <p>Quick local notes in the floating window and the Dashboard — the same notes in both. Markdown, checklists, due dates, tags and pins. Notes live in this browser only.</p>
+        </article>
+        <article class="feat">
+          <span class="fic amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <h3>Flows &amp; reminders</h3>
+          <p>A Flow runs a whole routine — tasks, scripts and a note — in one click or on a schedule. Task reminders open their sites at the time you set.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FULL DETAILS ================= -->
+  <section class="block" id="details">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Full Details</p>
+        <h2>Every feature, in detail.</h2>
+        <p>The complete release, feature by feature — how each one actually works, including the limits. Nothing here needs an account, and nothing runs until you say so.</p>
+      </div>
+      <div class="detail-grid">
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg> The floating window</h3>
+          <ul>
+            <li>Click the toolbar icon on any website and a small window opens. <b>Drag it by the header</b>, minimize it, close it — its position is remembered between visits.</li>
+            <li>It lives in a <b>Shadow DOM</b>, so the site's own styles can't break it — and it can't break the site.</li>
+            <li><b>Works with no website open:</b> on a new tab, <code>chrome://</code> or <code>about:blank</code>, the same UI opens as a standalone popup window (360×680). Clicking again focuses it instead of opening a duplicate.</li>
+            <li><b>Edit layout</b> — drag to reorder the window's pages, tap the eye to hide or show a page, tap the star to pick the page that opens first. Applies to the floating window, Side Panel and Popup; the Dashboard always shows all tabs.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Daily Tasks, in detail</h3>
+          <ul>
+            <li>Save sites by name + URL. <b>Pin, edit, delete, search</b> — duplicate URLs are rejected.</li>
+            <li><b>Open All</b> opens tabs one by one (~350 ms apart, max 50 at a time). Only the first tab opens in the foreground; the result is reported honestly — <i>“Opened 3 tabs.”</i> — never silently dropped.</li>
+            <li><b>Open-tabs tracking:</b> a task whose site is already open shows a green ● Open badge (×N when several) and a Close button that closes exactly those tabs. Clicking the badge focuses the tab.</li>
+            <li><b>Export tasks (.json)</b> downloads everything to one file; <b>Import</b> merges a backup back — already-saved URLs are skipped, nothing is ever deleted, and one line reports the counts. A file that isn't a tasks backup is refused with a clear error.</li>
+            <li><b>Smart Open All</b> skips sites that are already open, and <b>snooze</b> takes a task out of Open All for a while.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg> Script Manager, in detail</h3>
+          <ul>
+            <li>Every install is <b>scanned first</b> — score 0–100, grade A–F — and needs your explicit <b>Confirm</b>. The scan warns; it never blocks.</li>
+            <li><b>Version history</b> keeps the last 10 versions of each script, with a one-click <b>Rollback</b>.</li>
+            <li>Import from <code>.js</code>, <code>.user.js</code>, <code>.txt</code> or any text file, pasted code, or a URL you fetch yourself. Export any script as <code>.user.js</code> or <code>.txt</code>.</li>
+            <li>Built-in <b>editor</b>, plus <b>folders, tags, bulk actions</b> and an <b>archive</b> for scripts you don't use. Install straight from a URL — after the same scan + confirm.</li>
+            <li>A script with no <code>@match</code> patterns is saved but never registered — Flow tells you so, plainly.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9M9 21v-6h6v6"/></svg> Script Store &amp; the bridge</h3>
+          <ul>
+            <li>The official store lives in the public <code>hiddengem-flow-store</code> repo, fetched via raw.githubusercontent first, jsDelivr as fallback — and <b>only when you click Load store</b>. Nothing is fetched before that.</li>
+            <li>Search, and sort by <b>Recently updated / Latest / Name</b>. Installing always goes through scan + your confirm — nothing installs itself.</li>
+            <li><b>Smart Notification Bridge:</b> if the site you're on already has an official script, a dismissible banner says so and offers it in one click from the store.</li>
+            <li>A script you installed stays yours even if it is later removed from the store.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Notepad, in detail</h3>
+          <ul>
+            <li>The <b>same notes</b> in the floating window and in the Dashboard. Search as you type.</li>
+            <li>Notes support <b>Markdown, checklists and due dates</b>. Brand each note (HiddenGem / Personal / Work), add up to <b>10 tags</b>, pin to the top, and copy the note body in one click.</li>
+            <li>Delete needs a <b>two-step confirm</b>. An empty title falls back to the note's first line, or “Untitled note”.</li>
+            <li>Notes live in this browser only — <b>no server, no sync</b>.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 2"/><circle cx="12" cy="12" r="9"/></svg> Flows, reminders &amp; schedules</h3>
+          <ul>
+            <li>A <b>Flow</b> runs a routine — tasks + scripts + a note — in one click, or on a schedule.</li>
+            <li><b>Task reminders</b> open their sites at the time you set; Open All can also run on a schedule.</li>
+            <li><b>Scheduled scripts</b> are per-script opt-in and keep their own run log, so you can see exactly what ran and when.</li>
+            <li><b>Omnibox:</b> type <code>flow</code> + a task name in the address bar to open that task.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg> Runs &amp; logs</h3>
+          <ul>
+            <li><b>Multi-tab Logs:</b> every tab the extension opens gets a run entry — Queued → Running → Done — with the scripts that match it.</li>
+            <li><b>Stop All</b> closes only the tabs this extension opened — never your other tabs.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01"/></svg> Window modes, menus &amp; shortcuts</h3>
+          <ul>
+            <li><b>Three window modes</b> — Floating window, native Side Panel, or a standalone Popup window. Switch from the toolbar icon, <kbd>Alt+Shift+F</kbd>, the Dashboard, or each surface's Switch menu. Default is Floating.</li>
+            <li><b>Right-click menu:</b> save a site to Daily Tasks, save a selection as a note, or run a script on the page.</li>
+            <li><kbd>Alt+Shift+F</kbd> toggle the window · <kbd>Alt+Shift+T</kbd> add the current site as a task · <kbd>Alt+Shift+D</kbd> open the Dashboard · <kbd>Alt+Shift+N</kbd> quick note.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 4.9 5.4.8-3.9 3.8.9 5.4L12 14.4 7.2 16.9l.9-5.4L4.2 7.7l5.4-.8L12 2z"/></svg> More tools built in</h3>
+          <ul>
+            <li><b>Sessions</b> — save a set of open tabs and reopen them later.</li>
+            <li><b>Userstyles</b> — your own per-site custom CSS.</li>
+            <li><b>Scratchpad</b> for throwaway code, a <b>per-site dossier</b>, <b>store collections</b>, and a <b>per-script storage viewer</b> that shows what a script stored.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/><path d="M12 7v5l3 2"/></svg> Backup, sync &amp; updates</h3>
+          <ul>
+            <li><b>Automatic backup</b> keeps the last 3 snapshots. Restore from a snapshot, or export / import a backup file. Backups never contain tokens or API keys.</li>
+            <li><b>Optional sync</b> to your own WebDAV / Gist / Drive — <b>off by default</b>; you opt in, and it's your storage, not ours.</li>
+            <li><b>Updates are noticed, not installed:</b> unpacked extensions can't update themselves, so Flow checks GitHub Releases at most once every 6 hours (plus a manual <b>Check for updates</b> in Settings). When a newer build exists, the Overview tab shows a banner with the release tag and the manual steps — replace the files, press <b>Reload</b>. Never press Remove: that deletes your tasks and scripts.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3H7a2 2 0 0 0-2 2v4a2 2 0 0 1-2 2 2 2 0 0 1 2 2v4a2 2 0 0 0 2 2h1M16 3h1a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2 2 2 0 0 0-2 2v4a2 2 0 0 1-2 2h-1"/></svg> What scripts can use — the GM API</h3>
+          <ul>
+            <li><b>Six GM functions exist:</b> <code>GM_setValue</code>, <code>GM_getValue</code>, <code>GM_notification</code>, <code>GM_addStyle</code>, <code>GM_xmlhttpRequest</code> (only with <code>@grant GM_xmlhttpRequest</code> and the host in <code>@connect</code>) and <code>GM_setClipboard</code> — plus the <code>GM.*</code> object form.</li>
+            <li><code>GM_openInTab</code>, <code>GM_download</code>, <code>unsafeWindow</code> and the rest are <b>not implemented</b> — a script that calls one gets a scanner warning and a runtime error, never a fake.</li>
+            <li><code>GM_setValue</code> / <code>GM_getValue</code> values live in the page origin's localStorage, namespaced per script — visible to the page's own JavaScript. <b>Never store secrets with GM_*.</b></li>
+            <li>The scanner is a <b>regex heuristic</b>: it strips comments and strings first, so it can miss obfuscated code and can flag a pattern used safely. It is a warning, never proof of safety.</li>
+            <li>Only <b>JavaScript</b> userscripts run in a page. A file in another language can be opened and inspected, but it cannot run — the import says so plainly.</li>
+          </ul>
+        </article>
+
+        <article class="detail">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.6 8-10V5l-8-3-8 3v7c0 6.4 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> Privacy, precisely</h3>
+          <ul>
+            <li>Everything you save — tasks, scripts, positions, logs — stays in <code>chrome.storage.local</code> on your machine. No account, no analytics, no telemetry.</li>
+            <li>Only <b>two automatic external requests</b> exist: a favicon image next to each task site (Google's s2 service; a letter tile shows instead if it fails), and the update check asking api.github.com for the latest public release.</li>
+            <li>The store is fetched only when you click <b>Load store</b>. Importing from a URL fetches only that URL, when you click it.</li>
+          </ul>
+        </article>
+
+      </div>
+
+      <!-- Permissions -->
+      <div class="perm-wrap" id="permissions">
+        <h3>Permissions — every one, and why</h3>
+        <p>Flow asks for <b>no host permissions at all</b>. Site access for userscripts is an optional permission (<code>*://*/*</code>), granted per site only when you ask a script to run. Here is the complete list from the manifest:</p>
+        <div class="perm-table">
+          <div class="perm-row"><span class="pn">storage</span><p>Save tasks, scripts, window position and logs — all locally.</p></div>
+          <div class="perm-row"><span class="pn">tabs</span><p>Open the dashboard and task sites; read the active tab for “Add current site”.</p></div>
+          <div class="perm-row"><span class="pn">scripting</span><p>Inject the floating window into the tab when you click.</p></div>
+          <div class="perm-row"><span class="pn">activeTab</span><p>Temporary access to the tab you clicked — this is what lets Flow ask for no host permissions at all.</p></div>
+          <div class="perm-row"><span class="pn">userScripts</span><p>Register and unregister your userscripts. Chrome additionally needs the Allow User Scripts toggle (see the install guide).</p></div>
+          <div class="perm-row"><span class="pn">notifications</span><p>Only for <code>GM_notification</code> calls from a running userscript.</p></div>
+          <div class="perm-row"><span class="pn">sidePanel</span><p>Open the native Side Panel window mode.</p></div>
+          <div class="perm-row"><span class="pn">contextMenus</span><p>Right-click: save a site, save a selection as a note, run a script on the page.</p></div>
+          <div class="perm-row"><span class="pn">alarms</span><p>Reminders, scheduled Open All, and scheduled scripts.</p></div>
+          <div class="perm-note">Optional permission: <b>tabGroups</b> — groups the tabs Open All opens; granted only if you enable tab grouping. There is no default popup, and no required host permission.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STORE ================= -->
+  <section class="block" id="store">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Script Store</p>
+        <h2>Browse scripts. Copy the URL. Paste it in Flow.</h2>
+        <p>The store lives on GitHub, so this page reads the same live index the extension uses. Websites can't install scripts directly — the copy-and-paste step is the honest, browser-approved way.</p>
+      </div>
+      <div class="store-shell">
+        <div class="store-toolbar">
+          <label class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input type="search" id="storeSearch" placeholder="Search scripts by name, site or keyword…" aria-label="Search scripts">
+          </label>
+          <span class="store-count" id="storeCount">4 scripts</span>
+        </div>
+        <div class="store-grid" id="storeGrid">
+          <article class="store-card" data-search="titan exchange auto trader pro trading testnet titanx faucet hiddengem">
+            <div class="top">
+              <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></span>
+              <div><h3>Titan Exchange Auto Trader Pro by HiddenGem</h3><span class="ver">v2.0</span></div>
+            </div>
+            <p>Automated trading loop with anti-ban evasion, draggable &amp; minimizable UI, auto faucet claim, safety locks.</p>
+            <div class="match-line">https://testnet.titanx.cc/trade/*</div>
+            <div class="actions">
+              <button class="btn btn-green btn-sm copy-btn" data-url="https://raw.githubusercontent.com/BidyutRoy2/hiddengem-flow-store/main/scripts/titan-exchange-auto-trader-pro-by-hiddengem.user.js">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy install URL
+              </button>
+            </div>
+          </article>
+          <article class="store-card" data-search="universal dom diagnostic scanner ui rules baseline diff performance console overlay userscript-manager">
+            <div class="top">
+              <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/><path d="M8 11h6M11 8v6"/></svg></span>
+              <div><h3>Universal DOM Diagnostic v2.0</h3><span class="ver">v2.0.0</span></div>
+            </div>
+            <p>Read-only UI scanner for websites — 30+ diagnostic rules, score, Baseline Diff, hidden-iframe crawler, performance + console capture, overlay, custom rules. Userscript manager only: no Playwright, no GitHub Actions, no server, no network calls. Baseline and settings stay local.</p>
+            <div class="match-line">*://*/*</div>
+            <div class="actions">
+              <button class="btn btn-green btn-sm copy-btn" data-url="https://raw.githubusercontent.com/BidyutRoy2/hiddengem-flow-store/main/scripts/universal-dom-diagnostic-v2-0-tm-only.user.js">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy install URL
+              </button>
+            </div>
+          </article>
+          <article class="store-card" data-search="9chain virtual node auto tap to earn daily gift tier module upgrades cpu ram">
+            <div class="top">
+              <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="8" height="8" rx="2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span>
+              <div><h3>9Chain Virtual Node Auto</h3><span class="ver">v2.0.0</span></div>
+            </div>
+            <p>Auto Tap to Earn + Daily Gift + Node Tier &amp; Module Upgrades (CPU/RAM/Anti-Sybil/Firewall/Peer/Relay/Consensus/Sharding).</p>
+            <div class="match-line">Runs on its site</div>
+            <div class="actions">
+              <button class="btn btn-green btn-sm copy-btn" data-url="https://raw.githubusercontent.com/BidyutRoy2/hiddengem-flow-store/main/scripts/9chain-virtual-node-auto.user.js">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy install URL
+              </button>
+            </div>
+          </article>
+          <article class="store-card" data-search="firstprint daily streak auto claim earn reward">
+            <div class="top">
+              <span class="sic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 16l2 2 4-4"/></svg></span>
+              <div><h3>Firstprint Daily Streak Auto-Claim</h3><span class="ver">v1.0.2</span></div>
+            </div>
+            <p>Automatically claims the Firstprint daily streak reward when you open the Earn page. One claim per day (UTC). Clicks only the visible Claim button — it never signs wallet transactions for you.</p>
+            <div class="match-line">Runs on its site</div>
+            <div class="actions">
+              <button class="btn btn-green btn-sm copy-btn" data-url="https://raw.githubusercontent.com/BidyutRoy2/hiddengem-flow-store/main/scripts/firstprint-daily-streak-auto-claim.user.js">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy install URL
+              </button>
+            </div>
+          </article>
+        </div>
+        <div class="store-empty" id="storeEmpty">No scripts match that search. Try “firstprint” or “titan”.</div>
+        <div class="store-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 11v5"/></svg>
+          <span>After copying: open the Flow dashboard → <b>Install from URL</b> → paste → review the scan → Confirm. The extension always shows you the script's code and permissions before anything runs.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GUIDE ================= -->
+  <section class="block" id="guide">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Install Guide</p>
+        <h2>From download to running in about two minutes.</h2>
+        <p>Flow is installed manually (Load unpacked) — that's how Chromium browsers handle extensions outside the Web Store. Two grants at the end are yours to give before any userscript runs — no extension can give them for you. Tap a step to see it up close.</p>
+      </div>
+      <div class="guide-grid">
+        <div class="steps" role="tablist" aria-label="Install steps">
+          <button class="step active" data-step="0" role="tab" aria-selected="true">
+            <span class="num">1</span>
+            <span><h3>Download the zip</h3><p>Get the latest public release from GitHub — one zip, no installer, no account.</p></span>
+          </button>
+          <button class="step" data-step="1" role="tab" aria-selected="false">
+            <span class="num">2</span>
+            <span><h3>Unzip it anywhere</h3><p>Extract to a folder you'll keep — the browser loads the extension from this folder every time it starts.</p></span>
+          </button>
+          <button class="step" data-step="2" role="tab" aria-selected="false">
+            <span class="num">3</span>
+            <span><h3>Open the extensions page</h3><p>In Chrome or Brave, go to the extensions page and turn on Developer mode (top-right switch).</p></span>
+          </button>
+          <button class="step" data-step="3" role="tab" aria-selected="false">
+            <span class="num">4</span>
+            <span><h3>Load unpacked</h3><p>Click “Load unpacked”, pick the extracted folder, and pin HiddenGem Flow to your toolbar.</p></span>
+          </button>
+          <button class="step" data-step="4" role="tab" aria-selected="false">
+            <span class="num">5</span>
+            <span><h3>Turn on Allow User Scripts</h3><p>On the extensions page, open HiddenGem Flow → Details and switch Allow User Scripts ON. The dashboard and floating window both have a button that opens that Details page directly.</p></span>
+          </button>
+          <button class="step" data-step="5" role="tab" aria-selected="false">
+            <span class="num">6</span>
+            <span><h3>Grant site access per script</h3><p>Click “Grant site access” on a script and allow Chrome's prompt. Until then a script is registered but never runs — the grant is always yours to give.</p></span>
+          </button>
+        </div>
+        <div class="guide-visual">
+          <div class="code-card">
+            <div class="cc-bar">
+              <span class="d" style="background:#FF5F57"></span>
+              <span class="d" style="background:#FEBC2E"></span>
+              <span class="d" style="background:#28C840"></span>
+              <span class="cc-title" id="ccTitle">step-1-download.txt</span>
+            </div>
+            <pre id="ccBody"></pre>
+          </div>
+          <div class="guide-tip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.7 1 1.5 1 2.5h6c0-1 .2-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg>
+            <span><b>Updating later?</b> Replace the files in the same folder with the new zip's contents, then press <b>Reload</b> on the extensions page. Never press Remove — that deletes your scripts and settings.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CHANGELOG ================= -->
+  <section class="block" id="changelog">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">Changelog</p>
+        <h2>What's new</h2>
+        <p>Releases are published on GitHub. v3.0.0 is the current stable release — its .zip below downloads directly, without leaving this page.</p>
+      </div>
+      <div class="log-list">
+        <div class="log-row">
+          <div>
+            <div class="lv">v3.0.0</div>
+            <span class="badge badge-stable">STABLE · LATEST</span>
+            <div class="ld">18 Nov 2026</div>
+          </div>
+          <div>
+            <h3>The first stable release</h3>
+            <ul>
+              <li>The complete release, promoted to stable — three window modes (Floating, Side Panel, Popup), the full dashboard, Daily Tasks, script manager and official store</li>
+              <li>Everything from the v2.1.x line: backup &amp; restore, Flows &amp; reminders, Notepad with Markdown and checklists, sessions, userstyles and the update checker</li>
+              <li>The released zip was downloaded back from GitHub and verified byte-for-byte, then live-tested in a real browser — dashboard reports “You are up to date.”</li>
+            </ul>
+          </div>
+          <a class="dl js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg> .zip</a>
+        </div>
+      </div>
+
+      <!-- Download CTA -->
+      <div class="cta-band" id="download">
+        <div>
+          <h2>Get HiddenGem Flow</h2>
+          <p>The current stable release is <b class="js-version">v3.0.0</b>. Clicking Download starts the .zip right away — the file comes straight from the GitHub release asset and you stay on this page. Same file the extension's own update checker trusts, free and open to inspect line by line.</p>
+        </div>
+        <div class="cta-actions">
+          <a class="btn btn-green btn-lg js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            Download <span class="js-version">v3.0.0</span>&nbsp;.zip — direct
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#guide">Read the 2-minute install guide</a>
+          <span class="cta-note">Direct download · ~1.2 MB · Chrome · Brave · Edge — Chromium 120+</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="block" id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="kicker">FAQ</p>
+        <h2>Straight answers</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Why isn't Flow on the Chrome Web Store? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <div class="faq-body"><p>For now, Flow is distributed through GitHub Releases and installed with Load unpacked. That keeps every release open for inspection — the zip you download is exactly the code that runs. A Web Store listing may come later; the install guide above covers the manual route in about two minutes.</p></div>
+        </details>
+        <details>
+          <summary>Can this website install a script for me? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <div class="faq-body"><p>No — and no website can. Chrome removed website-triggered extension installs in 2018, and web pages can't open extension pages. That's why the store uses Copy install URL: you paste the link into the dashboard, review the scan, and confirm yourself. It's one extra step, and it's the safe one.</p></div>
+        </details>
+        <details>
+          <summary>Is my data collected anywhere? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <div class="faq-body"><p>No. Flow has no analytics, no accounts and no server of its own. Scripts and settings live in your browser's local storage. The only network calls are the ones you trigger — fetching a script URL, checking the store index, or checking for updates.</p></div>
+        </details>
+        <details>
+          <summary>How do updates work? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <div class="faq-body"><p>Unpacked extensions can't update themselves — Chrome gives them no way to replace their own files. So Flow notices instead: it checks GitHub Releases at most once every 6 hours, and the Dashboard's Overview tab shows a banner with the new version and the manual steps (download, replace the files in the same folder, press Reload on the extensions page). Never press Remove — that deletes your saved tasks and scripts. One honest quirk: a fresh install of a just-uploaded build may briefly report an update pointing at itself; Dismiss hides it until the next build.</p></div>
+        </details>
+        <details>
+          <summary>Which scripts can Flow run? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <div class="faq-body"><p>JavaScript userscripts with @match patterns. Six GM functions are supported — GM_setValue, GM_getValue, GM_notification, GM_addStyle, GM_xmlhttpRequest (with @grant and @connect) and GM_setClipboard, plus the GM.* object form. Functions like GM_openInTab, GM_download and unsafeWindow are not implemented: a script that calls one gets a scanner warning and a runtime error, never a fake. The full breakdown is in the Full Details section above.</p></div>
+        </details>
+        <details>
+          <summary>How do I report a bug or suggest a script? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></summary>
+          <div class="faq-body"><p>Open an issue on GitHub, or follow the HiddenGem channel on Telegram (@hiddengemnews) for release announcements and script drops.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <a class="brand" href="#top">
+          <span class="gem"><svg viewBox="0 0 24 24" fill="none" stroke="#04120B" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12l3 5-9 13L3 8l3-5z"/><path d="M3 8h18M9.5 8L12 21 14.5 8M6 3l3.5 5L12 3l2.5 5L18 3"/></svg></span>
+          HiddenGem&nbsp;<em>Flow</em>
+        </a>
+        <p>A userscript manager for Chromium browsers. Free, open source, private by design.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#details">Full details</a></li>
+          <li><a href="#permissions">Permissions</a></li>
+          <li><a href="#store">Script Store</a></li>
+          <li><a href="#changelog">Changelog</a></li>
+          <li><a class="js-download" href="https://github.com/BidyutRoy2/hiddengem-flow/releases/download/v3.0.0/hiddengem-flow-v3.0.0-20261118.zip" download>Download</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Help</h4>
+        <ul>
+          <li><a href="#guide">Install guide</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="https://github.com/BidyutRoy2/hiddengem-flow/issues" target="_blank" rel="noopener">Report a bug</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/BidyutRoy2/hiddengem-flow" target="_blank" rel="noopener">GitHub — extension</a></li>
+          <li><a href="https://github.com/BidyutRoy2" target="_blank" rel="noopener">Developed by Bidyut Roy</a></li>
+          <li><a href="https://t.me/hiddengemnews" target="_blank" rel="noopener">Telegram — @hiddengemnews</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 HiddenGem Flow · MIT License</span>
+      <span>Design preview — links point at the real GitHub project.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  <span id="toastText">Copied</span>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Direct download — resolve the latest GitHub release asset at runtime.
+     Every Download CTA already points at the known v3.0.0 asset URL as a
+     fallback; if the API answers, all of them switch to the live latest
+     asset. GitHub serves release assets as attachments, so the click
+     downloads the zip and the visitor stays on this page. */
+  var downloadLinks = document.querySelectorAll('a.js-download');
+  function setDownloadHref(url){
+    downloadLinks.forEach(function(a){ a.setAttribute('href', url); });
+  }
+  if(window.fetch){
+    fetch('https://api.github.com/repos/BidyutRoy2/hiddengem-flow/releases/latest')
+      .then(function(res){ if(!res.ok) throw new Error('release lookup failed'); return res.json(); })
+      .then(function(data){
+        var asset = data && data.assets && data.assets[0];
+        if(asset && asset.browser_download_url){
+          setDownloadHref(asset.browser_download_url);
+        }
+        if(data && data.tag_name){
+          document.querySelectorAll('.js-version').forEach(function(el){
+            el.textContent = data.tag_name;
+          });
+        }
+      })
+      .catch(function(){ /* fallback v3.0.0 asset URL stays in place */ });
+  }
+
+  /* Mobile menu */
+  var menuBtn = document.getElementById('menuBtn');
+  var mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', function(){
+    var open = mobileMenu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mobileMenu.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      mobileMenu.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+    });
+  });
+
+  /* Toast */
+  var toast = document.getElementById('toast');
+  var toastText = document.getElementById('toastText');
+  var toastTimer = null;
+  function showToast(msg){
+    toastText.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function(){ toast.classList.remove('show'); }, 2600);
+  }
+
+  /* Copy install URL */
+  function copyText(text, btn){
+    function done(){
+      if(btn){
+        var original = btn.innerHTML;
+        btn.classList.add('copied');
+        btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20 6L9 17l-5-5"/></svg> Copied — paste it in Flow';
+        setTimeout(function(){ btn.classList.remove('copied'); btn.innerHTML = original; }, 2400);
+      }
+      showToast('Install URL copied — paste it in Dashboard → Install from URL');
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(); });
+    } else { fallback(); }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta); done();
+    }
+  }
+  document.querySelectorAll('.copy-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ copyText(btn.getAttribute('data-url'), btn); });
+  });
+
+  /* Store search */
+  var search = document.getElementById('storeSearch');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.store-card'));
+  var count = document.getElementById('storeCount');
+  var empty = document.getElementById('storeEmpty');
+  search.addEventListener('input', function(){
+    var q = search.value.trim().toLowerCase();
+    var visible = 0;
+    cards.forEach(function(card){
+      var hit = !q || card.getAttribute('data-search').indexOf(q) !== -1 ||
+                card.textContent.toLowerCase().indexOf(q) !== -1;
+      card.style.display = hit ? '' : 'none';
+      if(hit) visible++;
+    });
+    count.textContent = visible + (visible === 1 ? ' script' : ' scripts');
+    empty.style.display = visible === 0 ? 'block' : 'none';
+  });
+
+  /* Install guide stepper */
+  var stepData = [
+    {
+      title: 'step-1-download.txt',
+      body:
+'<span class="cm"># the Download buttons on this page fetch</span>\n' +
+'<span class="cm"># the release zip directly — no GitHub trip</span>\n\n' +
+'<span class="cm"># you will get:</span>\n' +
+'<span class="st">hiddengem-flow-v3.0.0-20261118.zip</span>\n\n' +
+'<span class="cm"># ~1.2 MB · no installer · no sign-up</span>'
+    },
+    {
+      title: 'step-2-unzip.txt',
+      body:
+'<span class="cm"># extract the zip to a folder you will KEEP</span>\n' +
+'<span class="fn">unzip</span> hiddengem-flow-v3.0.0-20261118.zip\n\n' +
+'<span class="cm"># you should see:</span>\n' +
+'manifest.json\n' +
+'background.js\n' +
+'dashboard.html\n' +
+'assets/  …\n\n' +
+'<span class="cm"># do not delete this folder later —</span>\n' +
+'<span class="cm"># the browser loads Flow from here</span>'
+    },
+    {
+      title: 'step-3-extensions-page.txt',
+      body:
+'<span class="cm"># in Chrome or Brave, open:</span>\n' +
+'<span class="st">chrome://extensions</span>\n\n' +
+'<span class="cm"># then, top-right corner:</span>\n' +
+'<span class="kw">Developer mode</span>  →  <span class="st">[ ON ]</span>\n\n' +
+'<span class="cm"># three new buttons appear:</span>\n' +
+'Load unpacked · Pack extension · Update'
+    },
+    {
+      title: 'step-4-load-unpacked.txt',
+      body:
+'<span class="cm"># click "Load unpacked" and select</span>\n' +
+'<span class="cm"># the folder from step 2</span>\n\n' +
+'<span class="kw">HiddenGem Flow</span>  v3.0.0\n' +
+'<span class="st">✓ loaded</span>  ·  no errors\n\n' +
+'<span class="cm"># pin it from the puzzle-piece menu,</span>\n' +
+'<span class="cm"># open the dashboard — you are in.</span>'
+    },
+    {
+      title: 'step-5-allow-user-scripts.txt',
+      body:
+'<span class="cm"># required before ANY userscript runs</span>\n' +
+'<span class="st">chrome://extensions</span>\n' +
+'→ HiddenGem Flow → <span class="kw">Details</span>\n\n' +
+'<span class="kw">Allow User Scripts</span>  →  <span class="st">[ ON ]</span>\n\n' +
+'<span class="cm"># shortcut: the dashboard and the</span>\n' +
+'<span class="cm"># floating window both show a button</span>\n' +
+'<span class="cm"># that opens this Details page directly</span>'
+    },
+    {
+      title: 'step-6-site-access.txt',
+      body:
+'<span class="cm"># per script, per site — your grant</span>\n' +
+'<span class="kw">Grant site access</span>  →  Chrome prompt  →  Allow\n\n' +
+'<span class="cm"># until granted:</span>\n' +
+'script = <span class="st">registered</span>, never runs\n\n' +
+'<span class="cm"># after granted:</span>\n' +
+'script runs on its <span class="fn">@match</span> sites only'
+    }
+  ];
+  var ccTitle = document.getElementById('ccTitle');
+  var ccBody = document.getElementById('ccBody');
+  var stepBtns = document.querySelectorAll('.step');
+  function setStep(i){
+    stepBtns.forEach(function(b, j){
+      b.classList.toggle('active', i === j);
+      b.setAttribute('aria-selected', i === j ? 'true' : 'false');
+    });
+    ccTitle.textContent = stepData[i].title;
+    ccBody.innerHTML = stepData[i].body;
+  }
+  stepBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){ setStep(parseInt(btn.getAttribute('data-step'), 10)); });
+  });
+  setStep(0);
+})();
+</script>
+</body>
+</html>
